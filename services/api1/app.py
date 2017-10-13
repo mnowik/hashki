@@ -12,7 +12,6 @@ def hello():
 
 def build_register_url():
   return 
-  # https://www.instagram.com/oauth/authorize/?client_id=9cf2788101df4970bb91a3a0b69dc14f&redirect_uri=http://localhost:5000/instagram/oauth/callback&response_type=code
 
 @app.route('/retrieve/<string:hashtag>')
 def fetch_pictures(hashtag):

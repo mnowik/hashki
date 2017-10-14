@@ -4,6 +4,8 @@ services:
     image: nginx:alpine
     volumes:
       - ./services/nginx/nginx.conf:/etc/nginx/nginx.conf
+    links:
+      - api1:api1
     ports:
       - 8080:80
   api1:
@@ -12,11 +14,11 @@ services:
       - ./services/api1:/code
     links:
       - redis
-  api2:
-    build: ./services/api2/
-    volumes:
-      - ./services/api2:/code
-    links:
-      - redis
+  # api2:
+    # build: ./services/api2/
+    # volumes:
+      # - ./services/api2:/code
+    # links:
+      # - redis
   redis:
     image: "redis:alpine"

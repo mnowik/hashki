@@ -1,27 +1,45 @@
 from flask import request, Flask
+from flask_restful import Resource, Api
+from flask_sqlalchemy import SQLAlchemy
 from redis import Redis
 
-app = Flask(__name__)
-redis = Redis(host='redis', port=6379)
+from config import configure_app
+from model import db, User
 
+#######################
+#### configuration ####
+#######################
+app = Flask(__name__)
+configure_app(app)
+
+# db
+db.init_app(app)
+
+# redis
+redis = Redis(host='redis', port=app.config['REDIS_PORT'])
+
+
+#############
+#### APP ####
+#############
 @app.route('/')
 def hello():
+    user = User.query.first()
     count = redis.incr('hits')
-    return 'Hello World 1! I have been seen {} times.\n'.format(count)
+    return user.username
 
-
-def build_register_url():
-  return 
 
 @app.route('/retrieve/<string:hashtag>')
 def fetch_pictures(hashtag):
   return hashtag
 
+
 @app.route('/instagram/oauth/callback')
 def handle_callback():
   if request.method == 'POST':
-    return "yolo"
+    return "test"
   return "request"
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
